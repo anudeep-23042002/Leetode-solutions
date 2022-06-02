@@ -24,8 +24,17 @@ public:
             v.push_back(s);
             return;
         }
-        if(open<=n) solve(open+1,close,s+'(',v,n);
-        if(close<=n)solve(open,close+1,s+')',v,n);
+        if(open<n) {
+            s.push_back('(');
+            solve(open+1,close,s,v,n);
+            s.pop_back();
+        }
+        if(close<open)
+        {
+            s.push_back(')');
+            solve(open,close+1,s,v,n);
+            s.pop_back();
+        }
         return;
     }
     vector<string> generateParenthesis(int n) {
