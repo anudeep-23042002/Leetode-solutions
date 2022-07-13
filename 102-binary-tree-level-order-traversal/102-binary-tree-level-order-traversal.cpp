@@ -19,17 +19,17 @@ public:
         }
         q.push(root);
         while(!q.empty()){
+            int p=q.size();
             vector<int>d;
-            int n=q.size();
-            for(int i=0;i<n;i++){
-                auto k=q.front();
+            for(int i=0;i<p;i++){
+                auto t=q.front();
                 q.pop();
-                d.push_back(k->val);
-                if(k->left!=NULL){
-                    q.push(k->left);
+                d.push_back(t->val);
+                if(t->left!=NULL){
+                    q.push(t->left);
                 }
-                if(k->right!=NULL){
-                    q.push(k->right);
+                if(t->right!=NULL){
+                    q.push(t->right);
                 }
             }
             v.push_back(d);
