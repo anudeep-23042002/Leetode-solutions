@@ -1,40 +1,38 @@
 class Solution {
 public:
-    double findMedianSortedArrays(vector<int>& nums1, vector<int>& nums2) {
-        int n1=nums1.size();
-        int n2=nums2.size();
-        if(n1>n2){
-            return findMedianSortedArrays(nums2,nums1);
+    double findMedianSortedArrays(vector<int>& A, vector<int>& B) {
+        int n=A.size();
+        int m=B.size();
+        if(n>m){
+            return findMedianSortedArrays(B,A);
         }
-        int l=0;
-        int l1,r1,l2,r2;
-       
-        int r=n1;
-        
+        int l1=0,r1=n;
+        int a1,b1,a2,b2;
         int mid1,mid2;
-        double x=0;
-        while(l<=r){
-            mid1=l+((r-l)/2);
-            mid2=((n1+n2)/2)-mid1;
-            l1=mid1<=0?INT_MIN:nums1[mid1-1];
-            l2=mid2<=0?INT_MIN:nums2[mid2-1];
-            r1=mid1>=n1?INT_MAX:nums1[mid1];
-            r2=mid2>=n2?INT_MAX:nums2[mid2];
-            if(l1>r2){
-                r=mid1-1;
+        while(l1<=r1){
+            mid1=l1+((r1-l1)/2);
+            mid2=((n+m)/2)-mid1;
+            a1=mid1>0?A[mid1-1]:INT_MIN;
+            a2=mid1<n?A[mid1]:INT_MAX;
+            b1=mid2>0?B[mid2-1]:INT_MIN;
+            b2=mid2<m?B[mid2]:INT_MAX;
+            if(a1>b2){
+                r1=mid1-1;
             }
-            else if(l2>r1){
-                l=mid1+1;
+            else if(b1>a2){
+                l1=mid1+1;
             }
             else{
-                if((n1+n2)%2==0){
-                    return ((double)(max(l1,l2)+min(r1,r2))/2);
+                if((n+m)%2!=0){
+                    return min(a2,b2);
                 }
                 else{
-                    return (double)min(r1,r2);
+                    int w=max(a1,b1);
+                    int y=min(a2,b2);
+                    return (w+y+0.00)/2;
                 }
             }
         }
-        return x;
+        return -1;
     }
 };
