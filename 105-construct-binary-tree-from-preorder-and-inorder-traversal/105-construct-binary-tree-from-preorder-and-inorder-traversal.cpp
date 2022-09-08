@@ -11,24 +11,28 @@
  */
 class Solution {
 public:
-    int preInd=0;
-TreeNode *buildTree(vector<int> &preorder, vector<int> &inorder) {
-    return createTree(preorder,inorder,0,inorder.size() - 1);
-}
-TreeNode* createTree(vector<int>& preorder, vector<int>& inorder,int start, int end){
-    if(start > end){
-        return NULL;
-    }
-    TreeNode* node=new TreeNode(preorder[preInd++]);
-    int pos;
-    for(int i=start;i<=end;i++){
-        if(inorder[i]==node->val){
-            pos=i;
-            break;
+    TreeNode* tree(vector<int>in,vector<int>pre, int l,int r,int l1,int r1,int n){
+        if(l>r){
+            return NULL;
+        }  
+        if(l==r){
+            TreeNode* root=new TreeNode(in[l]);
+            return root;
         }
+        TreeNode* root=new TreeNode(pre[l1]);
+        int index=l;
+        for(int i=l;i<=r;i++){
+            if(in[i]==pre[l1]){
+                index=i;
+                break;
+            }
+        }
+        root->left=tree(in,pre,l,index-1,l1+1,l1+index-l,n);
+        root->right=tree(in,pre,index+1,r,l1+index-l+1,r1,n);
+        return root;
     }
-    node->left =createTree(preorder, inorder,start,pos-1);
-    node->right =createTree(preorder, inorder, pos+1,end);
-    return node;
-}
+    TreeNode* buildTree(vector<int>& pre, vector<int>& in) {
+        int n=in.size();
+        return tree(in,pre,0,n-1,0,n-1,n);
+    }
 };
